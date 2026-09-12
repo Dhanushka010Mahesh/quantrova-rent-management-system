@@ -30,19 +30,20 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#f0f0f3] dark:bg-[#0f172a] text-[#1a1a2e] dark:text-slate-100 font-sans antialiased transition-colors duration-200">
       <div className="flex min-h-screen relative overflow-x-hidden">
-        {/* 1. NARROW ICON SIDEBAR (72px, open by default) */}
+        {/* 1. NARROW ICON SIDEBAR (72px, visible when SecondarySidebar is hidden) */}
         <IconSidebar
-          collapsed={false}
+          collapsed={!secondarySidebarCollapsed}
           activeSection={activeSection}
           onSelectSection={handleSelectIconSection}
           onLogoClick={toggleSecondarySidebar}
         />
 
-        {/* 2. SECONDARY SIDEBAR (240px wide next to Icon Sidebar, with Hide button) */}
+        {/* 2. SECONDARY SIDEBAR (260px wide, visible at left-0 when open) */}
         <SecondarySidebar
           collapsed={secondarySidebarCollapsed}
           onHideClick={toggleSecondarySidebar}
           activeSection={activeSection}
+          isStandalone={true}
         />
 
         {/* Mobile backdrop overlay */}
@@ -58,7 +59,7 @@ export default function Dashboard() {
           className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
             secondarySidebarCollapsed
               ? "ml-[72px]"
-              : "ml-[72px] lg:ml-[332px]" // 72px + 260px
+              : "ml-0 lg:ml-[260px]"
           }`}
         >
           {/* 3. TOP BAR */}
