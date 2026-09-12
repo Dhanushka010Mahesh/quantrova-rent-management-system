@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown, Calendar, Bell, Search, Filter } from "lucide-react";
+import { ChevronDown, Calendar, Bell, Search, Filter, Maximize2, Minimize2 } from "lucide-react";
 
 interface DashboardTopBarProps {
   title?: string;
+  subtitle?: string;
   selectedPeriod?: string;
   onPeriodChange?: (period: string) => void;
 }
@@ -17,11 +18,34 @@ const timePeriods = [
 
 export default function DashboardTopBar({
   title = "Dashboard",
+  subtitle,
   selectedPeriod = "Last 30 days",
   onPeriodChange,
 }: DashboardTopBarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Sync fullscreen state with document event listener
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Error enabling fullscreen: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -36,17 +60,19 @@ export default function DashboardTopBar({
 
   return (
     <header className="sticky top-0 z-10 flex h-16 w-full items-center justify-between border-b border-[#e2e6ea] dark:border-slate-800 bg-white dark:bg-[#1e293b] px-4 sm:px-6 transition-colors">
-      {/* Left side: Large bold page title */}
+      {/* Left side: Large bold page title + dynamic subtitle */}
       <div>
         <h1 className="text-xl font-bold tracking-tight text-[#1a1a2e] dark:text-slate-100 sm:text-2xl">
           {title}
         </h1>
-        <p className="hidden text-xs text-[#8b8b9e] dark:text-slate-400 sm:block">
-          Overview of metrics, analytics & real-time store performance
-        </p>
+        {subtitle && (
+          <p className="hidden text-xs text-[#8b8b9e] dark:text-slate-400 sm:block">
+            {subtitle}
+          </p>
+        )}
       </div>
 
-      {/* Right side: Search bar, Notifications & Time period filter dropdown */}
+      {/* Right side: Search bar, Fullscreen, Notifications & Time period filter dropdown */}
       <div className="flex items-center space-x-3">
         {/* Search input (desktop) */}
         <div className="relative hidden md:block">
@@ -58,8 +84,21 @@ export default function DashboardTopBar({
           />
         </div>
 
+        {/* Fullscreen Toggle Button */}
+        <button
+          onClick={toggleFullscreen}
+          className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[#e2e6ea] dark:border-slate-700 text-[#8b8b9e] dark:text-slate-400 hover:bg-[#f7f8fa] dark:hover:bg-slate-800 hover:text-[#1a1a2e] dark:hover:text-slate-100 transition-colors cursor-pointer"
+          title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+        >
+          {isFullscreen ? (
+            <Minimize2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+          ) : (
+            <Maximize2 className="h-4 w-4" />
+          )}
+        </button>
+
         {/* Notifications Icon */}
-        <button className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[#e2e6ea] dark:border-slate-700 text-[#8b8b9e] dark:text-slate-400 hover:bg-[#f7f8fa] dark:hover:bg-slate-800 hover:text-[#1a1a2e] dark:hover:text-slate-100 transition-colors">
+        <button className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[#e2e6ea] dark:border-slate-700 text-[#8b8b9e] dark:text-slate-400 hover:bg-[#f7f8fa] dark:hover:bg-slate-800 hover:text-[#1a1a2e] dark:hover:text-slate-100 transition-colors cursor-pointer">
           <Bell className="h-4 w-4" />
           <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-[#10b981]" />
         </button>
