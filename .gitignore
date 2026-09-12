@@ -1,0 +1,14 @@
+client/node_modules
+server/node_modules
+node_modules/
+dist-electron/
+
+*.log
+client/dist
+*.local
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vscode/*

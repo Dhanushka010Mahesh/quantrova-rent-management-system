@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  /* ========================================
+     BRAND COLORS
+     ======================================== */
+
+  --color-primary: #f4b400;
+  --color-primary-dark: #d99f00;
+  --color-primary-light: #ffd45a;
+
+  --color-secondary: #17324d;
+  --color-secondary-light: #254b6b;
+  --color-secondary-dark: #0f2438;
+
+  /* ========================================
+     ACCENT COLORS
+     ======================================== */
+
+  --color-accent-teal: #008c95;
+  --color-accent-coral: #e45756;
+
+  /* ========================================
+     SYSTEM COLORS
+     ======================================== */
+
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
+  --color-info: #2563eb;
+
+  /* ========================================
+     NEUTRAL COLORS
+     ======================================== */
+
+  --color-background: #f7f8fa;
+  --color-surface: #ffffff;
+
+  --color-text: #17202a;
+  --color-text-muted: #667085;
+
+  --color-border: #e2e6ea;
+  --color-border-dark: #cbd2d9;
+}
+
+/* Tailwind v4 theme */
+
+@theme {
+  --color-primary: #f4b400;
+  --color-primary-dark: #d99f00;
+  --color-primary-light: #ffd45a;
+
+  --color-secondary: #17324d;
+  --color-secondary-light: #254b6b;
+  --color-secondary-dark: #0f2438;
+
+  --color-accent-teal: #008c95;
+  --color-accent-coral: #e45756;
+
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-danger: #dc2626;
+  --color-info: #2563eb;
+
+  --color-background: #f7f8fa;
+  --color-surface: #ffffff;
+
+  --color-text: #17202a;
+  --color-text-muted: #667085;
+
+  --color-border: #e2e6ea;
+  --color-border-dark: #cbd2d9;
+}
+
+/* Soft neomorphic surface — use on cards/tables instead of heavy borders/shadows.
+   Built purely from your existing background/surface colors, so it stays on-brand. */
+@layer utilities {
+  .surface-soft {
+    box-shadow:
+      6px 6px 14px rgba(23, 32, 42, 0.06),
+      -6px -6px 14px rgba(255, 255, 255, 0.75);
+  }
+
+  .surface-pressed {
+    box-shadow:
+      inset 3px 3px 6px rgba(23, 32, 42, 0.06),
+      inset -3px -3px 6px rgba(255, 255, 255, 0.7);
+  }
+}
