@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 :root {
   /* ========================================
      BRAND COLORS
@@ -33,14 +35,26 @@
      NEUTRAL COLORS
      ======================================== */
 
-  --color-background: #f7f8fa;
+  --color-background: #f0f0f3;
   --color-surface: #ffffff;
 
-  --color-text: #17202a;
-  --color-text-muted: #667085;
+  --color-text: #1a1a2e;
+  --color-text-muted: #8b8b9e;
 
   --color-border: #e2e6ea;
   --color-border-dark: #cbd2d9;
+}
+
+.dark {
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+
+  --color-border: #334155;
+  --color-border-dark: #475569;
+  color-scheme: dark;
 }
 
 /* Tailwind v4 theme */
@@ -62,18 +76,17 @@
   --color-danger: #dc2626;
   --color-info: #2563eb;
 
-  --color-background: #f7f8fa;
-  --color-surface: #ffffff;
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
 
-  --color-text: #17202a;
-  --color-text-muted: #667085;
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
 
-  --color-border: #e2e6ea;
-  --color-border-dark: #cbd2d9;
+  --color-border: var(--color-border);
+  --color-border-dark: var(--color-border-dark);
 }
 
-/* Soft neomorphic surface — use on cards/tables instead of heavy borders/shadows.
-   Built purely from your existing background/surface colors, so it stays on-brand. */
+/* Soft neomorphic surface — use on cards/tables instead of heavy borders/shadows. */
 @layer utilities {
   .surface-soft {
     box-shadow:

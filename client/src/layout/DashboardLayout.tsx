@@ -1,15 +1,11 @@
 import { Outlet } from "react-router-dom";
-import { menuItems } from "../config/menuConfig";
-import FloatingSidebarMenu from "../components/menu_bar/FloatingSidebarMenu";
 import { useDashboardShortcut } from "../hooks/useDashboardShortcut";
 import FullscreenResumeBanner from "./FullscreenResumeBanner";
 
 function DashboardLayout() {
   useDashboardShortcut();
   return (
-    <div className="min-h-screen bg-background">
-      <FloatingSidebarMenu items={menuItems} />
-
+    <div className="min-h-screen bg-background font-sans">
       <main>
         <Outlet />
       </main>
@@ -19,4 +15,4 @@ function DashboardLayout() {
   );
 }
 
-export default DashboardLayout; 
+export default DashboardLayout;

@@ -207,20 +207,23 @@ export default function FloatingSidebarMenu({
   const [open, setOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [position, setPosition] = useState(() => {
+    const defaultX = typeof window !== "undefined" ? window.innerWidth - BUTTON_SIZE - 24 : 24;
+    const defaultY = typeof window !== "undefined" ? window.innerHeight - BUTTON_SIZE - 24 : 24;
+
     if (typeof window === "undefined")
-      return initialPosition ?? { x: 24, y: 24 };
+      return initialPosition ?? { x: defaultX, y: defaultY };
     try {
       const saved = localStorage.getItem(storageKey);
-      if (saved) return JSON.parse(saved) as { x: number; y: number };
+      if (saved) {
+        const parsed = JSON.parse(saved) as { x: number; y: number };
+        // If saved position is near top right header area (y < 80), reset to bottom right
+        if (parsed.y < 80) return { x: defaultX, y: defaultY };
+        return parsed;
+      }
     } catch {
       /* ignore corrupt storage */
     }
-    return (
-      initialPosition ?? {
-        x: window.innerWidth - BUTTON_SIZE - 24,
-        y: window.innerHeight - BUTTON_SIZE - 24,
-      }
-    );
+    return initialPosition ?? { x: defaultX, y: defaultY };
   });
 
   const clearCloseTimer = useCallback(() => {
